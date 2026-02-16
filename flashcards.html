@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Sofistas e Sócrates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .flashcard {
+            width: 100%;
+            height: 200px;
+            perspective: 1000px; /* Adicionado para o efeito 3D */
+            margin-bottom: 20px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        .flashcard-front {
+            background-color: #007bff;
+            color: white;
+        }
+        .flashcard-back {
+            background-color: #28a745;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        #prevBtn { background-color: #6c757d; color: white; }
+        #nextBtn { background-color: #007bff; color: white; }
+        #flipBtn { background-color: #ffc107; color: black; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flashcards: Sofistas e Sócrates</h1>
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner">
+                <div class="flashcard-front" id="frontContent">Clique para virar ou use o botão!</div>
+                <div class="flashcard-back" id="backContent">Resposta aqui</div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="prevBtn" onclick="prevCard()">Anterior</button>
+            <button id="flipBtn" onclick="flipCard()">Virar</button>
+            <button id="nextBtn" onclick="nextCard()">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            { question: "O que caracterizou a transição da filosofia pré-socrática para a clássica?", answer: "Mudança de problemas cosmológicos (origem da natureza) para antropológicos (o homem como objeto de investigação)." },
+            { question: "Quem eram os sofistas e qual era seu papel em Atenas?", answer: "Professores itinerantes e remunerados que ensinavam retórica para convencer em debates políticos, durante a Era de Ouro de Atenas." },
+            { question: "O que Protágoras disse sobre 'O homem é a medida de todas as coisas'?", answer: "A percepção das coisas é relativa a cada sujeito; não há verdade objetiva, sendo ele o primeiro relativista." },
+            { question: "Qual era a visão de Górgias sobre a retórica e a existência?", answer: "A retórica serve apenas para persuadir, sem compromisso com a verdade; defendeu teses niilistas como 'nada existe' ou 'não se pode conhecer'." },
+            { question: "Quem foi Sócrates e por que ele é famoso?", answer: "Filósofo ateniense que não escreveu obras; famoso por seu método dialético, foco na alma humana e máxima 'conhece-te a ti mesmo'." },
+            { question: "O que é o 'não saber socrático'?", answer: "A percepção de que a sabedoria humana tem pouco valor; Sócrates reconhecia sua ignorância e levava outros a admiti-la." },
+            { question: "Qual era o método filosófico de Sócrates?", answer: "Método dialético com ironia (fingir ignorância para expor contradições) e maiêutica (ajudar a 'dar à luz' ideias, como uma parteira)." },
+            { question: "O que Sócrates pensava sobre a alma e a virtude?", answer: "A alma é a essência imaterial do homem (capacidade racional e moral); virtude é conhecimento, e ignorância é vício." },
+            { question: "Como Sócrates via a relação entre conhecimento e felicidade?", answer: "Conhecimento leva à virtude e à felicidade (eudaimonia), mesmo diante de sofrimentos; uma vida não examinada não merece ser vivida." },
+            { question: "O que é a maiêutica no pensamento de Sócrates?", answer: "A arte de ajudar as pessoas a retirarem o conhecimento de dentro de si, por meio de perguntas, como uma parteira ajuda no parto." }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        const flashcard = document.getElementById('flashcard');
+        const frontContent = document.getElementById('frontContent');
+        const backContent = document.getElementById('backContent');
+
+        function updateCard() {
+            frontContent.textContent = flashcards[currentIndex].question;
+            backContent.textContent = flashcards[currentIndex].answer;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            isFlipped = false;
+            flashcard.classList.remove('flipped');
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            isFlipped = false;
+            flashcard.classList.remove('flipped');
+            updateCard();
+        }
+
+        // Inicializar
+        updateCard();
+    </script>
+</body>
+</html>
